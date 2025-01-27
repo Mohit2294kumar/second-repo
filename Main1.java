@@ -1,4 +1,5 @@
-public class main{
+// Find the Maximum and Minimum Elements in an Array: Write a function to find the maximum and minimum elements in an array.
+public class Main1{
     public static void findMin(int[] arr){
         int min = arr[0];
         for(int i = 1; i < arr.length; i++){
