@@ -64,6 +64,29 @@ public class MainB1{
             }
         }
     }
+    public static int findDiameter(Node root){
+        if(root==null) return 0;
+        int leftHeight=findHeight(root.left);
+        int rightHeight=findHeight(root.right);
+        int leftDiameter=findDiameter(root.left);
+        int rightDiameter=findDiameter(root.right);
+        return Math.max(leftHeight+rightHeight+1, Math.max(leftDiameter, rightDiameter));
+    }
+    public static int findHeight(Node root){
+        if(root==null) return 0;
+        int leftHeight=findHeight(root.left);
+        int rightHeight=findHeight(root.right);
+        return Math.max(leftHeight, rightHeight)+1;
+    }
+    public static boolean isBalanced(Node root){
+        if(root==null) return true;
+        int leftHeight=findHeight(root.left);
+        int rightHeight=findHeight(root.right);
+        if(Math.abs(leftHeight-rightHeight)<=1 && isBalanced(root.left) && isBalanced(root.right)){
+            return true;
+        }
+        return false;
+    }
     public static void main (String[] args){
         int[] arr={27,19,5,-1,-1,4,10,-1,-1,23,-1,-1,2,1,-1,-1,10,-1,-1};
         BinaryTree tree=new BinaryTree();
@@ -76,6 +99,7 @@ public class MainB1{
         postOrder(root);
         System.out.println();
         levelOrder(root);
-
+        System.out.println(findDiameter(root));
+        System.out.println(isBalanced(root));
     }
 }
