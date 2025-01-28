@@ -1,3 +1,4 @@
+import java.util.*;
 public class MainB2 {
     static class Node {
         int data;
@@ -75,6 +76,65 @@ public class MainB2 {
             }
         }
     }
+    public static boolean search(Node root, int key){
+        if(root==null) return false;
+        if(root.data==key){
+            return true;
+        }else if(root.data>key){
+            return search(root.left, key);
+        }else{
+            return search(root.right, key);
+        }
+    }
+    public static Node delete(Node root, int key){
+        if(root==null) return root;
+        if(root.data>key){
+            root.left=delete(root.left, key);
+        }else if(root.data<key){
+            root.right=delete(root.right, key);
+        }else{
+            if(root.left==null){
+                return root.right;
+            }else if(root.right==null){
+                return root.left;
+            }
+            root.data=minValue(root.right);
+            root.right=delete(root.right, root.data);
+        }
+        return root;
+    }
+    public static int minValue(Node root){
+        int min=root.data;
+        while(root.left!=null){
+            min=root.left.data;
+            root=root.left;
+        }
+        return min;
+    }
+    public static int findDiameter(Node root){
+        if(root==null) return 0;
+        int leftHeight=findHeight(root.left);
+        int rightHeight=findHeight(root.right);
+        int leftDiameter=findDiameter(root.left);
+        int rightDiameter=findDiameter(root.right);
+        return Math.max(leftHeight+rightHeight+1, Math.max(leftDiameter, rightDiameter));
+    }
+    public static int findHeight(Node root){
+        if(root==null) return 0;
+        int leftHeight=findHeight(root.left);
+        int rightHeight=findHeight(root.right);
+        return Math.max(leftHeight, rightHeight)+1;
+    }
+    public static boolean isBalanced(Node root){
+        if(root==null) return true;
+        int leftHeight=findHeight(root.left);
+        int rightHeight=findHeight(root.right);
+        if(Math.abs(leftHeight-rightHeight)<=1 && isBalanced(root.left) && isBalanced(root.right)){
+            return true;
+        }
+        return false;
+    }
+
     public static void main(String[] args) {
         int[] arr = {15, 10, 5, 14, 20, 19, 25};
         BinarySearchTree tree = new BinarySearchTree();
@@ -86,6 +146,17 @@ public class MainB2 {
         System.out.println();
         postOrder(root);
         System.out.println();
+        levelOrder(root);
+        // System.out.println();
+        if(search(root, 25)){
+            System.out.println("Found");
+        }else{
+            System.out.println("Not Found");
+        }
+        System.out.println(findDiameter(root));
+        System.out.println(isBalanced(root));
+        System.out.println(findHeight(root));
+        root=delete(root, 20);
         levelOrder(root);
     }
 }
