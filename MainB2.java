@@ -134,6 +134,15 @@ public class MainB2 {
         }
         return false;
     }
+    public static Node LongestCommonAncestor(Node root, int n1, int n2){
+        if(root==null) return null;
+        if(root.data>n1 && root.data>n2){
+            return LongestCommonAncestor(root.left, n1, n2);
+        }else if(root.data<n1 && root.data<n2){
+            return LongestCommonAncestor(root.right, n1, n2);
+        }
+        return root;
+    }
 
     public static void main(String[] args) {
         int[] arr = {15, 10, 5, 14, 20, 19, 25};
@@ -158,5 +167,7 @@ public class MainB2 {
         System.out.println(findHeight(root));
         root=delete(root, 20);
         levelOrder(root);
+        //System.out.println();
+        System.out.println(LongestCommonAncestor(root, 5, 14).data);
     }
 }
